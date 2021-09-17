@@ -9,10 +9,18 @@ To compile & run with Code Runner extension: `control+option+n`.
 
 To format the file, `shift+option+f`.
 
+## Code maintenance
+
 To clear the `out` folder, run:
 
 ```sh
 make clearout
+```
+
+To quick commit:
+
+```sh
+make gp
 ```
 
 ## Older, manual steps
