@@ -16,6 +16,11 @@ echo "a: {a}".fmt
 echo "b: {b}".fmt
 echo "c: {c}".fmt
 
+# Mutate the variables
+a.add("bar")
+b += 1
+c = 3
+
 # https://stackoverflow.com/questions/58739226/how-do-you-do-string-interpolation-with-variables-in-nim
 import strutils
 
