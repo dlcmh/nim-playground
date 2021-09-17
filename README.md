@@ -1,7 +1,12 @@
 Install Visual Studio Code extensions:
 
 - https://marketplace.visualstudio.com/items?itemName=kosz78.nim
-- https://marketplace.visualstudio.com/items?itemName=wk-j.save-and-run
+
+Run vscode build task:
+
+```
+shift+cmd+b
+```
 
 Format the file:
 
