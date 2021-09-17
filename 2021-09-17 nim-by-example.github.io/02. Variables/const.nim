@@ -1,5 +1,3 @@
-# Computed at compilation time
-
 proc getAlphabet(): string =
   var accumulator = ""
 
@@ -7,3 +5,8 @@ proc getAlphabet(): string =
     accumulator.add(letter)
 
   return accumulator
+
+# Computed at compilation time
+const alphabet = getAlphabet()
+
+echo alphabet
