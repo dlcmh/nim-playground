@@ -7,6 +7,8 @@ Install Visual Studio Code extensions:
 
 To compile & run with Code Runner extension: `control+option+n`.
 
+To stop: `control+option+m`.
+
 To format the file, `shift+option+f`.
 
 ## Code maintenance
