@@ -1,6 +1,9 @@
 Install Visual Studio Code extensions:
 
 - https://marketplace.visualstudio.com/items?itemName=kosz78.nim
+- https://marketplace.visualstudio.com/items?itemName=formulahendry.code-runner
+
+To compile & run with Code Runner extension: `control+option+n`.
 
 Run vscode build task:
 
