@@ -3,7 +3,7 @@
 Install Visual Studio Code extensions:
 
 - https://marketplace.visualstudio.com/items?itemName=nimsaem.nimvscode
-- https://marketplace.visualstudio.com/items?itemName=formulahendry.code-runner
+- https://marketplace.visualstudio.com/items?itemName=formulahendry.code-runner (alternatively, press F6 and nimsaem.nimvscode will run the selected file)
 
 To compile & run with Code Runner extension: `control+option+n`.
 
