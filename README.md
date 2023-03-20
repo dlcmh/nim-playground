@@ -1,3 +1,16 @@
+## For `db_postgres` to work
+
+Assumes `libpq.dylib` is reachable.
+
+```sh
+brew install libpq
+
+# obtain the location of the library
+brew info libpq
+
+ln -s /usr/local/opt/libpq/lib/libpq.dylib /usr/local/lib/
+```
+
 ## Visual Studio Code
 
 Install Visual Studio Code extensions:
