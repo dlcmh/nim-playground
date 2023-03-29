@@ -18,6 +18,8 @@ Install Visual Studio Code extensions:
 - https://marketplace.visualstudio.com/items?itemName=nimsaem.nimvscode
 - https://marketplace.visualstudio.com/items?itemName=formulahendry.code-runner (alternatively, press F6 and nimsaem.nimvscode will run the selected file)
 
+To have Code Runner run in the terminal (to accept user input for example), search for "runinterm" in settings for the Run in Terminal setting, and set that to True.
+
 To compile & run with Code Runner extension: `control+option+n`.
 
 To stop: `control+option+m`.
