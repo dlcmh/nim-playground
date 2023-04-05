@@ -1,3 +1,13 @@
+## inim - interactive nim
+
+nimble install inim
+
+Add the following to `~/.zshrc`:
+
+```
+export PATH=$HOME/.nimble/bin:$PATH
+```
+
 ## For `db_postgres` to work
 
 Assumes `libpq.dylib` is reachable.
