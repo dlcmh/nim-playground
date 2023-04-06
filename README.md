@@ -1,3 +1,7 @@
+## Install nim
+
+Follow the steps at https://nim-lang.org/install_unix.html instead of `brew install nim` as the `brew` approach doesn't install `testament`.
+
 ## inim - interactive nim
 
 nimble install inim
