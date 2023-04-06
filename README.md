@@ -2,6 +2,12 @@
 
 Follow the steps at https://nim-lang.org/install_unix.html instead of `brew install nim` as the `brew` approach doesn't install `testament`.
 
+Create file `~/.config/nim/config.nims` and enter the following:
+
+```nims
+switch("out", "/tmp/") # compiles to this folder
+```
+
 ## inim - interactive nim
 
 nimble install inim
