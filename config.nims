@@ -4,4 +4,5 @@
 
 # --out: "out/"
 # --verbosity: 0
-switch("out", "/tmp/")
+switch("outdir", "/tmp/")
+switch("verbosity", "0")
