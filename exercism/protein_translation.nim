@@ -1,8 +1,7 @@
 proc translate*(s: string): seq[string] =
   if s.len < 3: return
-  var i: int
-  while i <= s.high:
-    if s.high - i < 2: raise new ValueError
+  for i in countup(0, s.high, 3):
+    if i + 2 > s.high: raise new ValueError
     case s[i .. i + 2]
       of "AUG": result.add "Methionine"
       of "UUU", "UUC": result.add "Phenylalanine"
@@ -13,7 +12,6 @@ proc translate*(s: string): seq[string] =
       of "UGG": result.add "Tryptophan"
       of "UAA", "UAG", "UGA": break
       else: raise new ValueError
-    i += 3
 
 when isMainModule:
   import unittest
