@@ -13,12 +13,12 @@ func hundreds(n: int64): string =
     result.add MaxNine[n div 100] & " " & Scale[0]
   let tens = n mod 100
   let lastDigit = tens mod 10
-  if tens in 10 .. 19:
-    result.add " " & En[lastDigit]
-  elif tens in 20 .. 99:
+  if tens in 20 .. 99:
     result.add " " & Ty[(tens div 10) - 2]
     if lastDigit > 0:
       result.add "-" & MaxNine[lastDigit]
+  elif tens in 10 .. 19:
+    result.add " " & En[lastDigit]
   elif tens in 1 .. 9:
     result.add " " & MaxNine[tens]
 
