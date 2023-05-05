@@ -5,7 +5,7 @@ Follow the steps at https://nim-lang.org/install_unix.html instead of `brew inst
 Create file `~/.config/nim/config.nims` and enter the following:
 
 ```nims
-switch("out", "/tmp/") # compiles to this folder
+switch("out", "/tmp/nim/") # compiles to this folder
 ```
 
 ## inim - interactive nim
