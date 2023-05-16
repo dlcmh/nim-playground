@@ -1,2 +1,3 @@
 --threads: on
 --mm: orc
+--define: ssl
