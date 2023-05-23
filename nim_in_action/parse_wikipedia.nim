@@ -1,15 +1,17 @@
 import std/[memfiles]
-import parse_with_parseutils
+import parse_page_views
+# import parse_with_parseutils
 
-proc pageViews(filepath: string): int =
+proc parseWiki(filepath: string): int =
   for line in memFiles.open(filepath).lines:
   # for line in filepath.lines:
-    let (_, _, views, _) = line.parsed
-    result += views
+    # let (_, _, views, _) = line.parsed
+    # result += views
+    result += line.pageViews
 
 when isMainModule:
   const filepath = "/Users/dlcmh/Downloads/pagecounts-20160101-050000"
-  echo pageViews(filepath)
+  echo filepath.parseWiki
 
 # for line in memFiles.open(filepath).lines:
 # 27039953
@@ -18,3 +20,7 @@ when isMainModule:
 # for line in filepath.lines:
 # 27039953
 # /tmp/nim/parse_wikipedia  7.05s user 0.16s system 93% cpu 7.713 total
+
+# result += line.pageViews
+# 27039953
+# /tmp/nim/parse_wikipedia  2.80s user 0.69s system 53% cpu 6.472 total
