@@ -1,17 +1,24 @@
 import std/[memfiles]
+import parse_page_title
 import parse_page_views
 # import parse_with_parseutils
 
-proc parseWiki(filepath: string): int =
+proc getTotalViews(filepath: string): int =
   for line in memFiles.open(filepath).lines:
   # for line in filepath.lines:
     # let (_, _, views, _) = line.parsed
     # result += views
     result += line.pageViews
 
+proc echoTitles(filepath: string) =
+  # for line in memFiles.open(filepath).lines:
+  for line in filepath.lines:
+    echo line.pageTitle
+
 when isMainModule:
   const filepath = "/Users/dlcmh/Downloads/pagecounts-20160101-050000"
-  echo filepath.parseWiki
+  # echo filepath.getTotalViews
+  filepath.echoTitles
 
 # for line in memFiles.open(filepath).lines:
 # 27039953
