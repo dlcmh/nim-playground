@@ -1,4 +1,4 @@
-import std/[memfiles]
+import std/[memfiles, uri]
 import parse_page_title
 import parse_page_views
 # import parse_with_parseutils
@@ -13,7 +13,10 @@ proc getTotalViews(filepath: string): int =
 proc echoTitles(filepath: string) =
   # for line in memFiles.open(filepath).lines:
   for line in filepath.lines:
-    echo line.pageTitle
+    let result = line.getDomainAndTitle
+    if result.domainCode != "en":
+      continue
+    echo result.pageTitle.decodeUrl
 
 when isMainModule:
   const filepath = "/Users/dlcmh/Downloads/pagecounts-20160101-050000"
