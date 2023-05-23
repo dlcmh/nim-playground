@@ -20,17 +20,25 @@ proc echoTitles(filepath: string) =
 
 when isMainModule:
   const filepath = "/Users/dlcmh/Downloads/pagecounts-20160101-050000"
-  # echo filepath.getTotalViews
-  filepath.echoTitles
+  echo filepath.getTotalViews
+  # filepath.echoTitles
 
+# getTotalViews
 # for line in memFiles.open(filepath).lines:
 # 27039953
 # /tmp/nim/parse_wikipedia  5.14s user 0.20s system 85% cpu 6.241 total
 
+# getTotalViews
 # for line in filepath.lines:
 # 27039953
 # /tmp/nim/parse_wikipedia  7.05s user 0.16s system 93% cpu 7.713 total
 
+# getTotalViews - before using skipUntil
 # result += line.pageViews
 # 27039953
 # /tmp/nim/parse_wikipedia  2.80s user 0.69s system 53% cpu 6.472 total
+
+# getTotalViews - after using skipUntil
+# time /tmp/nim/parse_wikipedia
+# 27039953
+# /tmp/nim/parse_wikipedia  1.30s user 0.11s system 99% cpu 1.419 total

@@ -1,22 +1,22 @@
 import std/[parseutils]
 
-var domainCode = ""
-var pageTitle = ""
-var pageSize = 0
-
 proc pageViews*(line: string): int =
   var pos = 0
 
-  pos.inc parseUntil(line, domainCode, {' '}, pos)
+  # domainCode
+  pos.inc skipUntil(line, ' ', pos)
 
   pos.inc
 
-  pos.inc parseUntil(line, pageTitle, {' '}, pos)
+  # pageTitle
+  pos.inc skipUntil(line, ' ', pos)
 
   pos.inc
 
+  # pageViews
   pos.inc parseInt(line, result, pos)
 
   pos.inc
 
-  pos.inc parseInt(line, pageSize, pos)
+  # pageSize
+  pos.inc skipUntil(line, ' ', pos)
