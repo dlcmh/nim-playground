@@ -1,7 +1,7 @@
 import std/[parseutils]
 
-proc parsed*(line: string, domainCode: var string, pageTitle: var string,
-    pageViews: var int, pageSize: var int) =
+proc parseInto*(line: string, domainCode: var string,
+    pageTitle: var string, pageViews: var int, pageSize: var int) =
   var pos = 0
 
   domainCode.setLen(0)
@@ -29,8 +29,8 @@ when isMainModule:
   var pageTitle: string
   var pageViews: int
   var pageSize: int
-  "en Nim_(programming_language) 1 70231".parsed(domainCode, pageTitle,
-      pageViews, pageSize)
+  "en Nim_(programming_language) 1 70231".parseInto(domainCode,
+      pageTitle, pageViews, pageSize)
 
   check domainCode == "en"
   check pageTitle == "Nim_(programming_language)"
