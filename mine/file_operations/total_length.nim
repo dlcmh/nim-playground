@@ -163,27 +163,50 @@ proc showTotalTitleLength2(filename: string, chunkSize = 1_000_000) =
   let file = io.open(filename)
   var buffer = newString(chunkSize)
   var totalLength = 0
-  while not file.endOfFile:
+  var domainCode: string
+  var pageTitle: string
+  var pageViews: int
+  var pageSize: int
+  var limit = 0
+  while not file.endOfFile and limit != 3:
     var lineStart = 0
     var lineFeedPos = 0
     let sizeRead = file.readChars(buffer)
     for i, v in buffer:
+      if limit == 3: break
       if v == '\n':
         lineFeedPos = i
         if lineFeedPos > lineStart:
-          let fields = parsed(buffer[lineStart..<lineFeedPos])
-          totalLength += fields.pageTitle.len
+          buffer[lineStart..<lineFeedPos].parseInto(domainCode, pageTitle,
+              pageViews, pageSize)
+          echo domainCode, "|", pageViews, "|", pageTitle.len
+          totalLength += pageTitle.len
           lineStart = lineFeedPos + 1
+          limit.inc
     file.setFilePos(lineFeedPos - buffer.high, fspCur)
     buffer.setLen(sizeRead)
   echo totalLength
 
-# echo totalLength
+proc showTotalTitleLength3(filename: string) =
+  let file = memfiles.open(filename)
+  var totalLength = 0
+  var domainCode: string
+  var pageTitle: string
+  var pageViews: int
+  var pageSize: int
+  # var limit = 0
+  for line in file.lines:
+    # if limit == 3: break
+    line.parseInto(domainCode, pageTitle, pageViews, pageSize)
+    # echo domainCode, "|", pageViews, "|", pageTitle.len
+    totalLength += pageTitle.len
+    # limit.inc
+  echo totalLength
 
 when isMainModule:
   # 7156099
   # /tmp/nim/total_length  0.23s user 0.11s system 98% cpu 0.340 total
-  showLineCount(wikiFilename)
+  # showLineCount(wikiFilename)
 
   # 423194
   # 420037739
@@ -205,3 +228,11 @@ when isMainModule:
   # 336879189
   # /tmp/nim/total_length  5.81s user 0.10s system 90% cpu 5.913 total
   # showTotalTitleLength1(wikiFilename)
+
+  # 336879189
+  # /tmp/nim/total_length  4.43s user 0.08s system 99% cpu 4.521 total
+  # showTotalTitleLength2(wikiFilename)
+
+  # 336091466
+  # /tmp/nim/total_length  2.41s user 0.14s system 97% cpu 2.610 total
+  showTotalTitleLength3(wikiFilename)
