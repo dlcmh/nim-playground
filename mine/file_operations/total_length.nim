@@ -47,23 +47,23 @@ const wikiFilename = "/Users/dlcmh/Downloads/pagecounts-20160101-050000"
   # line.parseInto(domainCode, pageTitle, pageViews, pageSize)
   # totalLength += pageTitle.len
 
-# E
-# 423194
-# 420037739
-# /tmp/nim/total_length  0.54s user 0.12s system 98% cpu 0.675 total
-# var buffer: string
-# var i = 0
-# var chunkAt = 10_000
-# var didShowBufferLength = false
-# for line in mf.lines:
-#   if (i + 1) mod chunkAt == 0:
-#     if not didShowBufferLength:
-#       echo buffer.len
-#       didShowBufferLength = true
-#     totalLength += buffer.len
-#     buffer.setLen(0)
-#   buffer.add line
-#   i += 1
+proc e(filename: string) =
+  let mf = memfiles.open(filename)
+  var totalLength = 0
+  var buffer: string
+  var i = 0
+  var chunkAt = 10_000
+  var didShowBufferLength = false
+  for line in mf.lines:
+    if (i + 1) mod chunkAt == 0:
+      if not didShowBufferLength:
+        echo buffer.len
+        didShowBufferLength = true
+      totalLength += buffer.len
+      buffer.setLen(0)
+    buffer.add line
+    i += 1
+  echo totalLength
 
 # F
 # 420037739
@@ -127,7 +127,10 @@ proc i(file: File, chunkSize = 1_000_000) =
 # echo totalLength
 
 when isMainModule:
-
+  # 423194
+  # 420037739
+  # /tmp/nim/total_length  0.54s user 0.12s system 98% cpu 0.675 total
+  e(wikiFilename)
 
   # 10
   # 111 thequi
