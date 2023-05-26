@@ -1,6 +1,7 @@
 import memfiles
 import threadpool
 import ../parse_wikipedia_page_views
+import ../parse_wiki
 
 const dataFilename = "./data"
 const wikiFilename = "/Users/dlcmh/Downloads/pagecounts-20160101-050000"
@@ -115,7 +116,8 @@ proc h(file: File, chunkSize = 10) =
   echo sizeRead, "\n", buffer
 
 
-proc showFileSize(file: File, chunkSize = 1_000_000) =
+proc showFileSize(filename: string, chunkSize = 1_000_000) =
+  let file = io.open(filename)
   var totalLength = 0
   var buffer = newString(chunkSize)
   while not file.endOfFile:
@@ -136,6 +138,25 @@ proc showTotalRecords(filename: string, chunkSize = 1_000_000) =
     buffer.setLen(sizeRead)
   echo count
 
+proc showTotalTitleLength(filename: string, chunkSize = 1_000_000) =
+  let file = io.open(filename)
+  var buffer = newString(chunkSize)
+  var totalLength = 0
+  while not file.endOfFile:
+    var lineStart = 0
+    var lineFeedPos = 0
+    let sizeRead = file.readChars(buffer)
+    for i, v in buffer:
+      if v == '\n':
+        lineFeedPos = i
+        if lineFeedPos > lineStart:
+          let fields = parsed(buffer[lineStart..<lineFeedPos])
+          totalLength += fields.pageTitle.len
+          lineStart = lineFeedPos + 1
+    file.setFilePos(lineFeedPos - buffer.high, fspCur)
+    buffer.setLen(sizeRead)
+  echo totalLength
+
 # echo totalLength
 
 when isMainModule:
@@ -150,8 +171,12 @@ when isMainModule:
 
   # 427688772
   # /tmp/nim/total_length  0.00s user 0.06s system 97% cpu 0.061 total
-  # showFileSize(io.open(wikiFilename))
+  # showFileSize(wikiFilename)
 
   # 200
   # /tmp/nim/total_length  0.01s user 0.00s system 75% cpu 0.013 total
-  showTotalRecords(dataFilename)
+  # showTotalRecords(dataFilename)
+
+  # 336879189
+  # /tmp/nim/total_length  5.80s user 0.10s system 90% cpu 6.521 total
+  showTotalTitleLength(wikiFilename)
