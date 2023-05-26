@@ -115,7 +115,7 @@ proc h(file: File, chunkSize = 10) =
   echo sizeRead, "\n", buffer
 
 
-proc i(file: File, chunkSize = 1_000_000) =
+proc showFileSize(file: File, chunkSize = 1_000_000) =
   var totalLength = 0
   var buffer = newString(chunkSize)
   while not file.endOfFile:
@@ -124,13 +124,25 @@ proc i(file: File, chunkSize = 1_000_000) =
     buffer.setLen(1_000_000)
   echo totalLength
 
+proc showTotalRecords(filename: string, chunkSize = 1_000_000) =
+  let file = io.open(filename)
+  var count = 0
+  var buffer = newString(chunkSize)
+  while not file.endOfFile:
+    let sizeRead = file.readChars(buffer)
+    for v in buffer:
+      if v == '\n':
+        count.inc
+    buffer.setLen(sizeRead)
+  echo count
+
 # echo totalLength
 
 when isMainModule:
   # 423194
   # 420037739
   # /tmp/nim/total_length  0.54s user 0.12s system 98% cpu 0.675 total
-  e(wikiFilename)
+  # e(wikiFilename)
 
   # 10
   # 111 thequi
@@ -138,4 +150,8 @@ when isMainModule:
 
   # 427688772
   # /tmp/nim/total_length  0.00s user 0.06s system 97% cpu 0.061 total
-  i(io.open(wikiFilename))
+  # showFileSize(io.open(wikiFilename))
+
+  # 200
+  # /tmp/nim/total_length  0.01s user 0.00s system 75% cpu 0.013 total
+  showTotalRecords(dataFilename)
