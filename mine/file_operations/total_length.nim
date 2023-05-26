@@ -2,10 +2,11 @@ import memfiles
 import threadpool
 import ../parse_wikipedia_page_views
 
-let filename = "/Users/dlcmh/Downloads/pagecounts-20160101-050000"
-let mf = memfiles.open(filename)
+const dataFilename = "./data"
+const wikiFilename = "/Users/dlcmh/Downloads/pagecounts-20160101-050000"
 
-var totalLength = 0
+# let mf = memfiles.open(filename)
+
 
 # A
 # 1.08s user 0.12s system 97% cpu 1.231 total
@@ -85,27 +86,53 @@ var totalLength = 0
 # G
 # 336091466
 # iMac /tmp/nim/total_length  3.24s user 1.02s system 198% cpu 2.147 total
-var i = 0
-var chunkAt = 1000 # trial & error, at 1000 mem usage spikes to < 2MB on iMac
-var chunk = newSeq[string](chunkAt)
-var responses: seq[FlowVar[int]]
-proc getLength(chunk: seq[string]): int =
-  var domainCode: string
-  var pageTitle: string
-  var pageViews: int
-  var pageSize: int
-  for line in chunk:
-    line.parseInto(domainCode, pageTitle, pageViews, pageSize)
-    result += pageTitle.len
-for line in mf.lines:
-  if (i + 1) mod chunkAt == 0:
-    responses.add spawn getLength(chunk)
-    chunk.setLen(0)
-  chunk.add line
-  i += 1
-if chunk.len > 0:
-  responses.add spawn getLength(chunk)
-for response in responses:
-  totalLength += ^response
+# var i = 0
+# var chunkAt = 1000 # trial & error, at 1000 mem usage spikes to < 2MB on iMac
+# var chunk = newSeq[string](chunkAt)
+# var responses: seq[FlowVar[int]]
+# proc getLength(chunk: seq[string]): int =
+#   var domainCode: string
+#   var pageTitle: string
+#   var pageViews: int
+#   var pageSize: int
+#   for line in chunk:
+#     line.parseInto(domainCode, pageTitle, pageViews, pageSize)
+#     result += pageTitle.len
+# for line in mf.lines:
+#   if (i + 1) mod chunkAt == 0:
+#     responses.add spawn getLength(chunk)
+#     chunk.setLen(0)
+#   chunk.add line
+#   i += 1
+# if chunk.len > 0:
+#   responses.add spawn getLength(chunk)
+# for response in responses:
+#   totalLength += ^response
 
-echo totalLength
+proc h(file: File, chunkSize = 10) =
+  var buffer = newString(chunkSize)
+  let sizeRead = file.readChars(buffer)
+  echo sizeRead, "\n", buffer
+
+
+proc i(file: File, chunkSize = 1_000_000) =
+  var totalLength = 0
+  var buffer = newString(chunkSize)
+  while not file.endOfFile:
+    let sizeRead = file.readChars(buffer)
+    totalLength += sizeRead
+    buffer.setLen(1_000_000)
+  echo totalLength
+
+# echo totalLength
+
+when isMainModule:
+
+
+  # 10
+  # 111 thequi
+  # h(io.open(dataFilename))
+
+  # 427688772
+  # /tmp/nim/total_length  0.00s user 0.06s system 97% cpu 0.061 total
+  i(io.open(wikiFilename))
