@@ -22,10 +22,12 @@ const wikiFilename = "/Users/dlcmh/Downloads/pagecounts-20160101-050000"
 # for line in mf.lines(buffer):
 #   totalLength += line.len
 
-# C - returned line isn't a Nim string
-# 0.24s user 0.10s system 98% cpu 0.340 total
-# for line in mf.memSlices:
-#   totalLength += line.size
+proc showLineCount(filename: string) =
+  let file = memfiles.open(filename)
+  var lineCount = 0
+  for _ in file.memSlices:
+    lineCount.inc
+  echo lineCount
 
 # D (based on B)
 # without startAt:
@@ -138,7 +140,26 @@ proc showTotalRecords(filename: string, chunkSize = 1_000_000) =
     buffer.setLen(sizeRead)
   echo count
 
-proc showTotalTitleLength(filename: string, chunkSize = 1_000_000) =
+proc showTotalTitleLength1(filename: string, chunkSize = 1_000_000) =
+  let file = io.open(filename)
+  var buffer = newString(chunkSize)
+  var totalLength = 0
+  while not file.endOfFile:
+    var lineStart = 0
+    var lineFeedPos = 0
+    let sizeRead = file.readChars(buffer)
+    for i, v in buffer:
+      if v == '\n':
+        lineFeedPos = i
+        if lineFeedPos > lineStart:
+          let fields = parsed(buffer[lineStart..<lineFeedPos])
+          totalLength += fields.pageTitle.len
+          lineStart = lineFeedPos + 1
+    file.setFilePos(lineFeedPos - buffer.high, fspCur)
+    buffer.setLen(sizeRead)
+  echo totalLength
+
+proc showTotalTitleLength2(filename: string, chunkSize = 1_000_000) =
   let file = io.open(filename)
   var buffer = newString(chunkSize)
   var totalLength = 0
@@ -160,6 +181,10 @@ proc showTotalTitleLength(filename: string, chunkSize = 1_000_000) =
 # echo totalLength
 
 when isMainModule:
+  # 7156099
+  # /tmp/nim/total_length  0.23s user 0.11s system 98% cpu 0.340 total
+  showLineCount(wikiFilename)
+
   # 423194
   # 420037739
   # /tmp/nim/total_length  0.54s user 0.12s system 98% cpu 0.675 total
@@ -178,5 +203,5 @@ when isMainModule:
   # showTotalRecords(dataFilename)
 
   # 336879189
-  # /tmp/nim/total_length  5.80s user 0.10s system 90% cpu 6.521 total
-  showTotalTitleLength(wikiFilename)
+  # /tmp/nim/total_length  5.81s user 0.10s system 90% cpu 5.913 total
+  # showTotalTitleLength1(wikiFilename)
