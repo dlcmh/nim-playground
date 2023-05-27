@@ -204,6 +204,10 @@ proc showTotalTitleLength3(filename: string) =
   echo totalLength
 
 when isMainModule:
+  import std/[monotimes, strutils, times]
+
+  let startTime = getMonoTime()
+
   # 7156099
   # /tmp/nim/total_length  0.23s user 0.11s system 98% cpu 0.340 total
   # showLineCount(wikiFilename)
@@ -236,3 +240,6 @@ when isMainModule:
   # 336091466
   # /tmp/nim/total_length  2.41s user 0.14s system 97% cpu 2.610 total
   showTotalTitleLength3(wikiFilename)
+
+  echo "mem: ", getTotalMem().formatSize, ", ", "dur: ", (getMonoTime() -
+      startTime).inMilliseconds, "ms"
