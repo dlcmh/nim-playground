@@ -194,14 +194,15 @@ proc showTotalTitleLength3(filename: string) =
   var pageTitle: string
   var pageViews: int
   var pageSize: int
-  # var limit = 0
   for line in file.lines:
-    # if limit == 3: break
     line.parseInto(domainCode, pageTitle, pageViews, pageSize)
-    # echo domainCode, "|", pageViews, "|", pageTitle.len
     totalLength += pageTitle.len
-    # limit.inc
   echo totalLength
+
+proc spawnShowTotalTitleLength3(n = 2, filename = wikiFilename) =
+  for _ in 1 .. n:
+    spawn showTotalTitleLength3(filename)
+  sync()
 
 when isMainModule:
   import std/[monotimes, strutils, times]
@@ -239,7 +240,42 @@ when isMainModule:
 
   # 336091466
   # /tmp/nim/total_length  2.41s user 0.14s system 97% cpu 2.610 total
-  showTotalTitleLength3(wikiFilename)
+  # showTotalTitleLength3(wikiFilename)
+
+  # 336091466
+  # mem: 516KiB, dur: 2468ms
+  # /tmp/nim/total_length  2.31s user 0.12s system 97% cpu 2.490 total
+  # spawnShowTotalTitleLength3(1)
+
+  # 336091466
+  # 336091466
+  # mem: 516KiB, dur: 2675ms
+  # /tmp/nim/total_length  4.98s user 0.28s system 192% cpu 2.733 total
+  # spawnShowTotalTitleLength3()
+
+  # 336091466
+  # 336091466
+  # 336091466
+  # mem: 516KiB, dur: 3716ms
+  # /tmp/nim/total_length  10.30s user 0.52s system 284% cpu 3.806 total
+  spawnShowTotalTitleLength3(3)
+
+  # 336091466
+  # 336091466
+  # 336091466
+  # 336091466
+  # mem: 516KiB, dur: 4653ms
+  # /tmp/nim/total_length  16.68s user 0.76s system 363% cpu 4.795 total
+  # spawnShowTotalTitleLength3(4)
+
+  # 336091466
+  # 336091466
+  # 336091466
+  # 336091466
+  # 336091466
+  # mem: 516KiB, dur: 7709ms
+  # /tmp/nim/total_length  20.73s user 0.96s system 274% cpu 7.892 total
+  # spawnShowTotalTitleLength3(5)
 
   echo "mem: ", getTotalMem().formatSize, ", ", "dur: ", (getMonoTime() -
       startTime).inMilliseconds, "ms"
