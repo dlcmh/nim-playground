@@ -310,13 +310,31 @@ when isMainModule:
   # /tmp/nim/total_length  20.73s user 0.96s system 274% cpu 7.892 total
   # spawnShowTotalTitleLength3(5)
 
-  # trial and error - getTotalTitleLengthForLinesLt to process 5/7 of the liness
+  # trial and error - getTotalTitleLengthForLinesLt to process 5/7 of the lines
+  # MacBook Pro
   # 182052736
   # 154038730
   # mem: 516KiB, dur: 1562ms
   # /tmp/nim/total_length  2.71s user 0.18s system 182% cpu 1.584 total
+  # iMac
+  # 182052736
+  # 154038730
+  # mem: 516KiB, dur: 1143ms
+  # /tmp/nim/total_length  2.04s user 0.12s system 185% cpu 1.163 total
   spawn wikiFilename.getTotalTitleLengthForLinesLt 5_000_000
   spawn wikiFilename.getTotalTitleLengthForLinesGte 5_000_000
+
+  # iMac
+  # 182052736
+  # 182052736
+  # 154038730
+  # 154038730
+  # mem: 516KiB, dur: 1340ms
+  # /tmp/nim/total_length  4.22s user 0.32s system 322% cpu 1.406 total
+  # spawn wikiFilename.getTotalTitleLengthForLinesLt 5_000_000
+  # spawn wikiFilename.getTotalTitleLengthForLinesGte 5_000_000
+  # spawn wikiFilename.getTotalTitleLengthForLinesLt 5_000_000
+  # spawn wikiFilename.getTotalTitleLengthForLinesGte 5_000_000
   sync()
 
   echo "mem: ", getTotalMem().formatSize, ", ", "dur: ", (getMonoTime() -
